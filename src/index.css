@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Bạn có thể thêm css tùy chỉnh ở dưới */
+body {
+  background-color: #111; /* Màu nền tối để test */
+  color: white;
+}
