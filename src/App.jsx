@@ -20,9 +20,9 @@ import {
   Download,
 } from "lucide-react";
 import avatarImage from "./assets/picture/Avatar.jpg";
-// Navbar Component
 
-// Tech Stack Circle Component
+// --- COMPONENTS CON ---
+
 const AboutContent = () => {
   return (
     <div style={{ animation: "fadeIn 0.5s ease-in-out", maxWidth: "800px" }}>
@@ -69,6 +69,7 @@ const AboutContent = () => {
     </div>
   );
 };
+
 const TechStackCircle = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
@@ -159,8 +160,8 @@ const TechStackCircle = () => {
   );
 };
 
-// Hero Section Component
-const HeroSection = () => {
+// Hero Section Component (Updated prop: onContactClick)
+const HeroSection = ({ onContactClick }) => {
   return (
     <section
       id="home"
@@ -262,7 +263,8 @@ const HeroSection = () => {
               style={{ display: "flex", gap: "1rem", justifyContent: "center" }}
             >
               <a
-                href="contact"
+                href="#contact"
+                onClick={onContactClick} // Gắn hàm xử lý click vào đây
                 style={{
                   background: "#38bdf8",
                   color: "#000",
@@ -272,6 +274,7 @@ const HeroSection = () => {
                   textDecoration: "none",
                   transition: "transform 0.3s",
                   display: "inline-block",
+                  cursor: "pointer",
                 }}
                 onMouseEnter={(e) =>
                   (e.target.style.transform = "translateY(-2px)")
@@ -283,8 +286,8 @@ const HeroSection = () => {
                 Contact Me
               </a>
               <a
-                href="/pdf/PhamVietDuc_WebDeveloper_Intern_CV.pdf" // Đường dẫn tính từ thư mục public
-                download="Pham_Viet_Duc_Web_Dev_Intern_CV.pdf" // Tên file khi người dùng tải về
+                href="/pdf/PhamVietDuc_WebDeveloper_Intern_CV.pdf"
+                download="Pham_Viet_Duc_Web_Dev_Intern_CV.pdf"
                 style={{
                   background: "transparent",
                   color: "#38bdf8",
@@ -296,7 +299,7 @@ const HeroSection = () => {
                   transition: "all 0.3s",
                   display: "flex",
                   alignItems: "center",
-                  gap: "0.5rem", // Khoảng cách giữa icon và chữ
+                  gap: "0.5rem",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = "rgba(56, 189, 248, 0.1)";
@@ -364,7 +367,7 @@ const EducationContent = () => {
   );
 };
 
-// 2. Achievement Content (Phong cách tối giản)
+// 2. Achievement Content
 const AchievementContent = () => {
   const achievements = [
     {
@@ -392,9 +395,9 @@ const AchievementContent = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: "1.5rem", // Khoảng cách giữa các hàng
+        gap: "1.5rem",
         animation: "fadeIn 0.5s ease-in-out",
-        maxWidth: "800px", // Giới hạn chiều rộng cho gọn
+        maxWidth: "800px",
       }}
     >
       {achievements.map((item, index) => (
@@ -402,14 +405,13 @@ const AchievementContent = () => {
           key={index}
           style={{
             display: "flex",
-            alignItems: "flex-start", // Căn icon theo dòng đầu tiên
+            alignItems: "flex-start",
             gap: "1.5rem",
             paddingBottom: "1.5rem",
             borderBottom:
-              index !== achievements.length - 1 ? "1px solid #2d3342" : "none", // Gạch chân ngăn cách trừ mục cuối
+              index !== achievements.length - 1 ? "1px solid #2d3342" : "none",
           }}
         >
-          {/* Icon nhỏ gọn */}
           <div
             style={{
               background: "#1c1f26",
@@ -425,11 +427,10 @@ const AchievementContent = () => {
             <item.icon size={20} />
           </div>
 
-          {/* Nội dung */}
           <div>
             <h4
               style={{
-                fontSize: "1.125rem", // Kích thước chữ tiêu đề vừa phải (~18px)
+                fontSize: "1.125rem",
                 fontWeight: "600",
                 color: "#ffffff",
                 marginBottom: "0.25rem",
@@ -495,7 +496,6 @@ const ProjectsContent = () => {
 
   return (
     <div style={{ animation: "fadeIn 0.5s ease-in-out" }}>
-      {/* 1. Tiêu đề mục */}
       <h3
         style={{
           fontSize: "1.5rem",
@@ -533,12 +533,11 @@ const ProjectsContent = () => {
               display: "flex",
               flexDirection: "column",
               gap: "1rem",
-              position: "relative", // Để xử lý hiệu ứng hover
+              position: "relative",
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = "#38bdf8";
               e.currentTarget.style.transform = "translateY(-4px)";
-              // Tìm phần tử text "Click to experience..." để đổi màu
               const cta = e.currentTarget.querySelector(".cta-text");
               if (cta) cta.style.color = "#38bdf8";
             }}
@@ -549,7 +548,6 @@ const ProjectsContent = () => {
               if (cta) cta.style.color = "#9ca3af";
             }}
           >
-            {/* Tên Project */}
             <h3
               style={{
                 fontSize: "1.25rem",
@@ -561,7 +559,6 @@ const ProjectsContent = () => {
               {project.title}
             </h3>
 
-            {/* Mô tả */}
             <p
               style={{
                 color: "#9ca3af",
@@ -573,7 +570,6 @@ const ProjectsContent = () => {
               {project.desc}
             </p>
 
-            {/* Tech Stack */}
             <div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
                 {project.tech.map((t, i) => (
@@ -594,11 +590,10 @@ const ProjectsContent = () => {
               </div>
             </div>
 
-            {/* 2. Dòng chữ Click to experience */}
             <div
-              className="cta-text" // Class để dễ querySelector khi hover
+              className="cta-text"
               style={{
-                marginTop: "auto", // Đẩy xuống đáy
+                marginTop: "auto",
                 paddingTop: "1rem",
                 borderTop: "1px solid #2d3342",
                 display: "flex",
@@ -606,7 +601,7 @@ const ProjectsContent = () => {
                 gap: "0.5rem",
                 fontSize: "0.875rem",
                 fontWeight: "500",
-                color: "#9ca3af", // Màu mặc định
+                color: "#9ca3af",
                 transition: "color 0.3s",
               }}
             >
@@ -630,8 +625,8 @@ const ContactContent = () => {
     },
     {
       icon: Phone,
-      text: "0398399540", // Thay số điện thoại của bạn vào đây
-      link: "tel:0398399540", // Thay số điện thoại vào đây (viết liền không khoảng cách)
+      text: "0398399540",
+      link: "tel:0398399540",
     },
     {
       icon: Github,
@@ -641,7 +636,7 @@ const ContactContent = () => {
   ];
 
   return (
-    <div style={{ animation: "fadeIn 0.5s ease-in-out" }}>
+    <div id="contact" style={{ animation: "fadeIn 0.5s ease-in-out" }}>
       <p style={{ color: "#9ca3af", marginBottom: "2rem", fontSize: "1.1rem" }}>
         Interested in working together? Let's connect.
       </p>
@@ -651,15 +646,15 @@ const ContactContent = () => {
           <a
             key={index}
             href={contact.link}
-            target={contact.icon === Github ? "_blank" : "_self"} // Github mở tab mới, còn lại mở trực tiếp
+            target={contact.icon === Github ? "_blank" : "_self"}
             rel="noopener noreferrer"
             style={{
               display: "flex",
               alignItems: "center",
               gap: "1rem",
               color: "#ffffff",
-              textDecoration: "none", // Bỏ gạch chân mặc định của thẻ a
-              width: "fit-content", // Chỉ rộng bằng nội dung để hover đẹp hơn
+              textDecoration: "none",
+              width: "fit-content",
               transition: "color 0.3s",
             }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#38bdf8")}
@@ -673,9 +668,9 @@ const ContactContent = () => {
     </div>
   );
 };
-const TabbedInfoSection = () => {
-  const [activeTab, setActiveTab] = useState("projects"); // Mặc định hiển thị Projects
 
+// Tabbed Section (Updated: Accepts props instead of internal state)
+const TabbedInfoSection = ({ activeTab, setActiveTab }) => {
   const tabs = [
     { id: "education", label: "Education" },
     { id: "achievements", label: "Achievements" },
@@ -684,7 +679,6 @@ const TabbedInfoSection = () => {
     { id: "about", label: "About Me" },
   ];
 
-  // Hàm render nội dung dựa trên tab đang chọn
   const renderContent = () => {
     switch (activeTab) {
       case "education":
@@ -703,7 +697,11 @@ const TabbedInfoSection = () => {
   };
 
   return (
-    <section style={{ padding: "4rem 0", minHeight: "600px" }}>
+    // Thêm ID info-section để scroll tới
+    <section
+      id="info-section"
+      style={{ padding: "4rem 0", minHeight: "600px" }}
+    >
       <div style={{ maxWidth: "1024px", margin: "0 auto", padding: "0 2rem" }}>
         {/* --- THANH NAVIGATION (TABS) --- */}
         <div
@@ -712,7 +710,7 @@ const TabbedInfoSection = () => {
             gap: "2rem",
             borderBottom: "1px solid #2d3342",
             marginBottom: "3rem",
-            overflowX: "auto", // Cho phép cuộn ngang trên mobile
+            overflowX: "auto",
             paddingBottom: "1px",
           }}
         >
@@ -745,7 +743,6 @@ const TabbedInfoSection = () => {
         <div style={{ minHeight: "300px" }}>{renderContent()}</div>
       </div>
 
-      {/* Style cho animation fade-in */}
       <style>
         {`
           @keyframes fadeIn {
@@ -776,7 +773,23 @@ const Footer = () => {
   );
 };
 
+// Main Component (Updated: Holds State & Handle Click)
 const Portfolio = () => {
+  // 1. State nằm ở component cha
+  const [activeTab, setActiveTab] = useState("projects");
+
+  // 2. Hàm xử lý khi bấm nút Contact Me
+  const handleContactClick = (e) => {
+    e.preventDefault(); // Chặn hành vi nhảy link mặc định
+    setActiveTab("contact"); // Bật tab Contact
+
+    // Tìm section và cuộn xuống
+    const section = document.getElementById("info-section");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div
       style={{
@@ -786,9 +799,11 @@ const Portfolio = () => {
         minHeight: "100vh",
       }}
     >
-      <HeroSection />
+      {/* Truyền hàm xuống HeroSection */}
+      <HeroSection onContactClick={handleContactClick} />
 
-      <TabbedInfoSection />
+      {/* Truyền state và hàm set state xuống TabbedInfoSection */}
+      <TabbedInfoSection activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <Footer />
     </div>
