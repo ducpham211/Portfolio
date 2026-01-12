@@ -19,7 +19,7 @@ import {
   Phone,
   Download,
 } from "lucide-react";
-
+import avatarImage from "./assets/picture/Avatar.jpg";
 // Navbar Component
 
 // Tech Stack Circle Component
@@ -208,7 +208,7 @@ const HeroSection = () => {
                   }}
                 ></div>
                 <img
-                  src="src/assets/picture/Avatar.jpg"
+                  src={avatarImage}
                   alt="Avatar"
                   style={{
                     width: "280px",
