@@ -34,10 +34,10 @@ const AboutContent = () => {
           marginBottom: "2rem",
         }}
       >
-        I am a IT student with a deep passion for building web applications that
-        solve real-world problems. Beyond coding, I enjoy{" "}
-        <strong>football</strong> and exploring new UI/UX trends. I am always
-        eager to learn new technologies and improve my problem-solving skills.
+        I am a Backend Developer with hands-on experience building scalable applications 
+        using <strong>Java and Spring Boot</strong>. Having interned in the Banking & Finance 
+        sector at HDBank, I have developed a strong mindset for robust architecture, secure 
+        coding, and database management. I love solving complex backend challenges and optimizing performance.
       </p>
 
       {/* Soft Skills dạng Tags */}
@@ -74,22 +74,22 @@ const TechStackCircle = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const skillData = [
-    { name: "React", icon: Code },
-    { name: "Next.js", icon: Zap },
-    { name: "TypeScript", icon: Code },
-    { name: "Node.js", icon: Server },
-    { name: "PostgreSQL", icon: Database },
-    { name: "Tailwind CSS", icon: Layout },
-    { name: "Figma", icon: Settings },
-    { name: "Git", icon: Settings },
-    { name: "Docker", icon: Cpu },
-    { name: "Express.js", icon: Server },
-    { name: "Supabase", icon: Database },
-    { name: "RESTful APIs", icon: Globe },
-    { name: "JavaScript", icon: Code },
-    { name: "HTML5", icon: Layout },
-    { name: "CSS3", icon: Layout },
+    { name: "Java", icon: Code },
     { name: "Spring Boot", icon: Server },
+    { name: "Spring Security", icon: Settings },
+    { name: "PostgreSQL", icon: Database },
+    { name: "Redis", icon: Database },
+    { name: "Docker", icon: Cpu },
+    { name: "Git", icon: Settings },
+    { name: "RESTful APIs", icon: Globe },
+    { name: "Node.js", icon: Server },
+    { name: "Express.js", icon: Server },
+    { name: "React", icon: Code },
+    { name: "TypeScript", icon: Code },
+    { name: "Hibernate", icon: Database },
+    { name: "Stripe API", icon: Zap },
+    { name: "WebSocket", icon: Globe },
+    { name: "Flyway", icon: Settings },
   ];
 
   const radius = 160;
@@ -244,7 +244,7 @@ const HeroSection = ({ onContactClick }) => {
                 textAlign: "center",
               }}
             >
-              Full Stack Developer
+              Backend Developer
             </h1>
             <p
               style={{
@@ -255,9 +255,8 @@ const HeroSection = ({ onContactClick }) => {
                 textAlign: "center",
               }}
             >
-              IT student with a strong foundation in React/Next.js and Node.js.
-              Seeking a Web Developer Intern position to contribute to real
-              world projects and enhance professional skills.
+              Backend Developer with hands-on experience in Java (Spring Boot) and database management. 
+              Seeking a Fresher/Intern position to contribute to robust and scalable systems.
             </p>
             <div
               style={{ display: "flex", gap: "1rem", justifyContent: "center" }}
@@ -468,6 +467,19 @@ const AchievementContent = () => {
 const ProjectsContent = () => {
   const projects = [
     {
+      title: "Pitch Management System",
+      desc: "A comprehensive backend system for sports field booking. Implemented stateless JWT auth, real-time WebSocket notifications, and asynchronous payment processing via Stripe Webhooks.",
+      tech: [
+        "Java",
+        "Spring Boot",
+        "PostgreSQL",
+        "Redis",
+        "Stripe API",
+        "Docker",
+      ],
+      link: "https://github.com/ducpham211/pitch-management-system",
+    },
+    {
       title: "E-Commerce Platform",
       desc: "A full-stack e-commerce application with cart management, payment integration, and admin dashboard.",
       tech: [
@@ -485,12 +497,6 @@ const ProjectsContent = () => {
       desc: "Real-time task management application with team collaboration features and progress tracking.",
       tech: ["Node.js", "Express.js", "Supabase", "HTML/CSS", "EJS"],
       link: "https://to-do-app-dzlm.onrender.com/",
-    },
-    {
-      title: "Hotel Booking System",
-      desc: "A hotel booking web application with room availability, booking management, and user reviews.",
-      tech: ["React", "Supabase", "Tailwind CSS", "Node.js", "Express.js"],
-      link: "https://booking-hotel-platform-one.vercel.app/",
     },
   ];
 
@@ -605,7 +611,7 @@ const ProjectsContent = () => {
                 transition: "color 0.3s",
               }}
             >
-              <span>Click to experience the website</span>
+              <span>{project.link.includes('github') ? 'View Source Code' : 'Click to experience the website'}</span>
               <ExternalLink size={14} />
             </div>
           </a>
