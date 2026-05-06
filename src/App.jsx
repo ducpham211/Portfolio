@@ -78,7 +78,7 @@ const SpotlightCard = ({ children, className = "", isPrimary = false, href }) =>
     </>
   );
 
-  const cardClasses = `group block relative overflow-hidden rounded-3xl glass-card transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/5 ${className} ${isPrimary ? 'md:col-span-2 md:p-10' : 'p-8'}`;
+  const cardClasses = `group block relative overflow-hidden rounded-3xl glass-card transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/5 ${className} ${isPrimary ? 'md:col-span-2 p-6 md:p-10' : 'p-6 md:p-8'}`;
 
   if (href) {
     return (
@@ -262,7 +262,7 @@ export default function App() {
       <main className="relative z-10 pt-20">
         
         {/* HERO SECTION */}
-        <section id="home" className="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 max-w-5xl mx-auto">
+        <section id="home" className="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 py-20 md:py-0 max-w-5xl mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
@@ -312,7 +312,7 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 items-center"
+            className="flex flex-col sm:flex-row gap-4 items-center pb-6"
           >
             <a 
               href="#projects"
@@ -337,13 +337,13 @@ export default function App() {
             <motion.div
               initial={{ opacity: 0, x: -100 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-white">About Me</h2>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 text-lg">
                 I am an Information Technology student at UIT - VNU.HCM with a profound interest in 
-                server-side architecture and data management. My journey involves continuous learning, 
+                server-side architecture and data management. My journey involves continuous slearning, 
                 exploring modern frameworks, and writing clean, maintainable code.
               </p>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-lg">
@@ -365,7 +365,7 @@ export default function App() {
               id="experience"
               initial={{ opacity: 0, x: 100 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
             >
               <h2 className="text-3xl font-bold mb-8 text-neutral-900 dark:text-white">Experience & Education</h2>
@@ -419,7 +419,7 @@ export default function App() {
               className="text-center mb-16"
               initial={{ opacity: 0, x: -100 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <h2 className="text-4xl font-bold mb-4 text-neutral-900 dark:text-white tracking-tight">Technical Arsenal</h2>
@@ -432,7 +432,7 @@ export default function App() {
                   key={idx}
                   initial={{ opacity: 0, x: 100 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
+                  viewport={{ once: true, margin: "-20px" }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: idx * 0.1 }}
                   className="h-full"
                 >
@@ -476,7 +476,7 @@ export default function App() {
             className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-4"
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true, margin: "-20px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <div>
@@ -502,7 +502,7 @@ export default function App() {
                 key={idx}
                 initial={{ opacity: 0, x: idx % 2 === 0 ? -100 : 100 }}
                 whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                viewport={{ once: true, margin: "-20px" }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
                 className={project.isPrimary ? 'md:col-span-2' : ''}
               >
