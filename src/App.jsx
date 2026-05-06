@@ -221,13 +221,11 @@ const Navbar = ({ isDark, toggleDark }) => {
 export default function App() {
   const [isDark, setIsDark] = useState(false);
 
-  // Initialize theme
   useEffect(() => {
-    // Check local storage or system preference
+    // Check local storage, default to light if not explicitly set to 'dark'
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    if (savedTheme === 'dark') {
       setIsDark(true);
       document.documentElement.classList.add('dark');
     } else {
