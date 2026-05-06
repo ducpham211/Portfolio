@@ -379,7 +379,7 @@ export default function App() {
                 {/* Edu 1 */}
                 <div className="relative">
                   <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-neutral-300 dark:bg-neutral-600 border-4 border-light-bg dark:border-dark-bg" />
-                  <span className="text-sm font-semibold text-neutral-500 dark:text-neutral-400 tracking-wider uppercase mb-1 block">2023 - Present</span>
+                  <span className="text-sm font-semibold text-brand-500 tracking-wider uppercase mb-1 block">2023 - Present</span>
                   <h3 className="text-xl font-bold text-neutral-900 dark:text-white">Bachelor of Information Technology</h3>
                   <h4 className="text-lg font-semibold text-brand-600 dark:text-brand-400 mb-3">University of Information Technology (UIT)</h4>
                    <ul className="list-disc pl-5 text-neutral-600 dark:text-neutral-400 leading-relaxed mt-3">
