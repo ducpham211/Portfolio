@@ -112,16 +112,12 @@ const SpotlightCard = ({ children, className = "", isPrimary = false, href }) =>
 };
 
 const Section = ({ children, id, className = "" }) => (
-  <motion.section 
+  <section 
     id={id}
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-100px" }}
-    transition={{ duration: 0.6, ease: "easeOut" }}
-    className={`py-20 md:py-32 px-6 max-w-6xl mx-auto ${className}`}
+    className={`py-20 md:py-32 px-6 max-w-6xl mx-auto overflow-hidden ${className}`}
   >
     {children}
-  </motion.section>
+  </section>
 );
 
 const Navbar = ({ isDark, toggleDark }) => {
@@ -338,7 +334,12 @@ export default function App() {
         {/* ABOUT & EXPERIENCE */}
         <Section id="about" className="border-t border-light-border dark:border-dark-border">
           <div className="grid md:grid-cols-2 gap-16">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: -100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
               <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-white">About Me</h2>
               <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 text-lg">
                 I am an Information Technology student at UIT - VNU.HCM with a profound interest in 
@@ -358,9 +359,15 @@ export default function App() {
                   <Linkedin size={24} />
                 </a>
               </div>
-            </div>
+            </motion.div>
 
-            <div id="experience">
+            <motion.div 
+              id="experience"
+              initial={{ opacity: 0, x: 100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            >
               <h2 className="text-3xl font-bold mb-8 text-neutral-900 dark:text-white">Experience & Education</h2>
               
               <div className="relative pl-6 border-l border-neutral-200 dark:border-neutral-800 flex flex-col gap-10">
@@ -398,7 +405,7 @@ export default function App() {
                   </ul>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </Section>
 
@@ -408,41 +415,56 @@ export default function App() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-brand-500/5 blur-[120px] rounded-full pointer-events-none" />
 
           <div className="max-w-6xl mx-auto relative z-10">
-            <div className="text-center mb-16">
+            <motion.div 
+              className="text-center mb-16"
+              initial={{ opacity: 0, x: -100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+            >
               <h2 className="text-4xl font-bold mb-4 text-neutral-900 dark:text-white tracking-tight">Technical Arsenal</h2>
               <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">Modern tools and technologies I use to architect robust, scalable applications.</p>
-            </div>
+            </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {SKILLS.map((skillGroup, idx) => (
-                <SpotlightCard key={idx} className="!p-6 h-full flex flex-col group">
-                  <div className="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 flex items-center justify-center mb-6 border border-neutral-200 dark:border-neutral-700 group-hover:scale-110 transition-transform duration-500 shadow-sm">
-                    {idx === 0 && <Server className="text-brand-500" size={24} />}
-                    {idx === 1 && <Database className="text-blue-500" size={24} />}
-                    {idx === 2 && <Layout className="text-pink-500" size={24} />}
-                    {idx === 3 && <Code2 className="text-purple-500" size={24} />}
-                  </div>
-                  
-                  <h3 className="text-xl font-bold mb-6 text-neutral-900 dark:text-white group-hover:text-brand-500 transition-colors">
-                    {skillGroup.category}
-                  </h3>
-                  
-                  <div className="flex flex-col gap-2.5 mt-auto">
-                    {skillGroup.items.map((item, i) => (
-                      <motion.div 
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 * i, duration: 0.3 }}
-                        key={i} 
-                        className="w-full px-3 py-2 text-sm font-medium rounded-lg bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800 hover:border-brand-500/50 hover:text-brand-500 dark:hover:text-brand-400 hover:bg-brand-500/5 transition-all shadow-sm flex items-center justify-between group/item"
-                      >
-                        <span>{item}</span>
-                        <div className="w-1.5 h-1.5 rounded-full bg-neutral-300 dark:bg-neutral-700 group-hover/item:bg-brand-500 transition-colors" />
-                      </motion.div>
-                    ))}
-                  </div>
-                </SpotlightCard>
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, x: 100 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: idx * 0.1 }}
+                  className="h-full"
+                >
+                  <SpotlightCard className="!p-6 h-full flex flex-col group">
+                    <div className="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 flex items-center justify-center mb-6 border border-neutral-200 dark:border-neutral-700 group-hover:scale-110 transition-transform duration-500 shadow-sm">
+                      {idx === 0 && <Server className="text-brand-500" size={24} />}
+                      {idx === 1 && <Database className="text-blue-500" size={24} />}
+                      {idx === 2 && <Layout className="text-pink-500" size={24} />}
+                      {idx === 3 && <Code2 className="text-purple-500" size={24} />}
+                    </div>
+                    
+                    <h3 className="text-xl font-bold mb-6 text-neutral-900 dark:text-white group-hover:text-brand-500 transition-colors">
+                      {skillGroup.category}
+                    </h3>
+                    
+                    <div className="flex flex-col gap-2.5 mt-auto">
+                      {skillGroup.items.map((item, i) => (
+                        <motion.div 
+                          initial={{ opacity: 0, y: 10 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.1 * i, duration: 0.3 }}
+                          key={i} 
+                          className="w-full px-3 py-2 text-sm font-medium rounded-lg bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800 hover:border-brand-500/50 hover:text-brand-500 dark:hover:text-brand-400 hover:bg-brand-500/5 transition-all shadow-sm flex items-center justify-between group/item"
+                        >
+                          <span>{item}</span>
+                          <div className="w-1.5 h-1.5 rounded-full bg-neutral-300 dark:bg-neutral-700 group-hover/item:bg-brand-500 transition-colors" />
+                        </motion.div>
+                      ))}
+                    </div>
+                  </SpotlightCard>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -450,7 +472,13 @@ export default function App() {
 
         {/* PROJECTS */}
         <Section id="projects">
-          <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <motion.div 
+            className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-4"
+            initial={{ opacity: 0, x: -100 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
             <div>
               <h2 className="text-4xl font-bold mb-4 text-neutral-900 dark:text-white tracking-tight">Featured Projects</h2>
               <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl">
@@ -466,39 +494,48 @@ export default function App() {
             >
               View all on GitHub <ExternalLink size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </a>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {PROJECTS.map((project, idx) => (
-              <SpotlightCard 
-                key={idx} 
-                href={project.link} 
-                isPrimary={project.isPrimary}
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: idx % 2 === 0 ? -100 : 100 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                className={project.isPrimary ? 'md:col-span-2' : ''}
               >
-                <div className="flex justify-between items-start mb-6">
-                  <h3 className={`font-bold text-neutral-900 dark:text-white group-hover:text-brand-500 transition-colors ${project.isPrimary ? 'text-2xl md:text-3xl' : 'text-xl'}`}>
-                    {project.title}
-                  </h3>
-                  <div className="w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-500 group-hover:bg-brand-500 group-hover:text-white transition-all shrink-0">
-                    <ExternalLink size={18} />
+                <SpotlightCard 
+                  href={project.link} 
+                  isPrimary={project.isPrimary}
+                  className="h-full"
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <h3 className={`font-bold text-neutral-900 dark:text-white group-hover:text-brand-500 transition-colors ${project.isPrimary ? 'text-2xl md:text-3xl' : 'text-xl'}`}>
+                      {project.title}
+                    </h3>
+                    <div className="w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-500 group-hover:bg-brand-500 group-hover:text-white transition-all shrink-0">
+                      <ExternalLink size={18} />
+                    </div>
                   </div>
-                </div>
-                
-                <p className={`text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed ${project.isPrimary ? 'text-lg max-w-3xl' : ''}`}>
-                  {project.description}
-                </p>
-                
-                <div className="mt-auto flex flex-wrap gap-2 pt-6 border-t border-light-border dark:border-dark-border">
-                  {project.tech.map((t, i) => (
-                    <span 
-                      key={i} 
-                      className="px-3 py-1 text-xs font-semibold rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 group-hover:border-brand-500/30 transition-colors"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </SpotlightCard>
+                  
+                  <p className={`text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed ${project.isPrimary ? 'text-lg max-w-3xl' : ''}`}>
+                    {project.description}
+                  </p>
+                  
+                  <div className="mt-auto flex flex-wrap gap-2 pt-6 border-t border-light-border dark:border-dark-border">
+                    {project.tech.map((t, i) => (
+                      <span 
+                        key={i} 
+                        className="px-3 py-1 text-xs font-semibold rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 group-hover:border-brand-500/30 transition-colors"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </SpotlightCard>
+              </motion.div>
             ))}
           </div>
         </Section>
