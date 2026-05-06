@@ -1,819 +1,538 @@
-import React, { useState } from "react";
-import {
-  Code,
-  Zap,
-  Server,
-  Database,
-  Layout,
-  Settings,
-  Cpu,
-  Globe,
-  Mail,
-  Linkedin,
-  Github,
-  GraduationCap,
-  MapPin,
-  Calendar,
-  Award,
-  ExternalLink,
-  Phone,
-  Download,
-} from "lucide-react";
-import avatarImage from "./assets/picture/Avatar.jpg";
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { 
+  Sun, Moon, Github, Linkedin, Mail, ExternalLink, Code2, 
+  Server, Database, Layout, Terminal, Menu, X, Download
+} from 'lucide-react';
+import avatarImage from './assets/picture/Avatar.jpg';
 
-// --- COMPONENTS CON ---
+// --- CONFIG & DATA ---
 
-const AboutContent = () => {
-  return (
-    <div style={{ animation: "fadeIn 0.5s ease-in-out", maxWidth: "800px" }}>
-      <p
-        style={{
-          color: "#9ca3af",
-          lineHeight: "1.8",
-          fontSize: "1.05rem",
-          marginBottom: "2rem",
-        }}
-      >
-        I am a Backend Developer with hands-on experience building scalable applications 
-        using <strong>Java and Spring Boot</strong>. Having interned in the Banking & Finance 
-        sector at HDBank, I have developed a strong mindset for robust architecture, secure 
-        coding, and database management. I love solving complex backend challenges and optimizing performance.
-      </p>
+const PROJECTS = [
+  {
+    title: "Pitch Management System",
+    description: "A comprehensive backend system for sports field booking. Implemented stateless JWT auth, real-time WebSocket notifications, and asynchronous payment processing via Stripe.",
+    tech: ["Java", "Spring Boot", "PostgreSQL", "Redis", "Stripe API"],
+    link: "https://github.com/ducpham211/pitch-management-system",
+    isPrimary: true
+  },
+  {
+    title: "Auto Audit Logging",
+    description: "Production-ready Spring Boot starter library for automated audit logging with Data Masking for sensitive fields and large object filtering.",
+    tech: ["Java", "Spring Boot", "AOP", "JUnit 5"],
+    link: "https://github.com/ducpham211/auto-audit-logging",
+    isPrimary: true
+  },
+  {
+    title: "SportGear E-commerce",
+    description: "Full-stack e-commerce application with cart management, payment integration, and admin dashboard.",
+    tech: ["React", "Node.js", "Express", "Supabase", "Momo Pay"],
+    link: "https://github.com/ducpham211/SportGear-E-commerce-Platform"
+  },
+  {
+    title: "Football Master Manager",
+    description: "A comprehensive management system tailored for football teams, focusing on performance tracking and scheduling.",
+    tech: ["TypeScript", "React", "Node.js"],
+    link: "https://github.com/ducpham211/football-master-manager"
+  },
+  {
+    title: "Booking Hotel Platform",
+    description: "A responsive platform for browsing and booking hotels seamlessly with interactive UI components.",
+    tech: ["JavaScript", "React", "Tailwind CSS"],
+    link: "https://github.com/ducpham211/booking-hotel-platform"
+  }
+];
 
-      {/* Soft Skills dạng Tags */}
-      <div>
-        <h4 style={{ color: "#ffffff", marginBottom: "1rem" }}>Soft Skills</h4>
-        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-          {[
-            "Teamwork",
-            "Time Management",
-            "Problem Solving",
-            "Adaptability",
-            "English Communication",
-          ].map((skill, index) => (
-            <span
-              key={index}
-              style={{
-                border: "1px solid #2d3342",
-                color: "#9ca3af",
-                padding: "0.5rem 1rem",
-                borderRadius: "20px",
-                fontSize: "0.9rem",
-              }}
-            >
-              {skill}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
+const SKILLS = [
+  { category: "Backend", items: ["Java", "Node.js", "Express.js"] },
+  { category: "Database & Tools", items: ["PostgreSQL", "Git", "Flyway"] },
+  { category: "Frontend", items: ["TypeScript", "React", "Tailwind CSS"] },
+  { category: "Concepts", items: ["RESTful APIs", "Security (JWT)", "WebSockets"] }
+];
 
-const TechStackCircle = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
+// --- COMPONENTS ---
 
-  const skillData = [
-    { name: "Java", icon: Code },
-    { name: "Spring Boot", icon: Server },
-    { name: "Spring Security", icon: Settings },
-    { name: "PostgreSQL", icon: Database },
-    { name: "Redis", icon: Database },
-    { name: "Docker", icon: Cpu },
-    { name: "Git", icon: Settings },
-    { name: "RESTful APIs", icon: Globe },
-    { name: "Node.js", icon: Server },
-    { name: "Express.js", icon: Server },
-    { name: "React", icon: Code },
-    { name: "TypeScript", icon: Code },
-    { name: "Hibernate", icon: Database },
-    { name: "Stripe API", icon: Zap },
-    { name: "WebSocket", icon: Globe },
-    { name: "Flyway", icon: Settings },
-  ];
+const SpotlightCard = ({ children, className = "", isPrimary = false, href }) => {
+  const divRef = React.useRef(null);
+  const [position, setPosition] = React.useState({ x: 0, y: 0 });
+  const [opacity, setOpacity] = React.useState(0);
 
-  const radius = 160;
-  const centerX = 220;
-  const centerY = 220;
+  const handleMouseMove = (e) => {
+    if (!divRef.current) return;
+    const rect = divRef.current.getBoundingClientRect();
+    setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
 
-  return (
-    <div className="relative" style={{ width: "440px", height: "440px" }}>
-      <div className="absolute inset-0 flex items-center justify-center">
-        <h2 className="text-3xl font-bold" style={{ color: "#ffffff" }}>
-          Tech Stack
-        </h2>
-      </div>
-
-      {skillData.map((skill, index) => {
-        const angle = (index / skillData.length) * 2 * Math.PI - Math.PI / 2;
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
-        const Icon = skill.icon;
-        const isHovered = hoveredIndex === index;
-
-        return (
-          <div
-            key={index}
-            className="absolute transition-all duration-300 cursor-pointer"
-            style={{
-              left: `${x}px`,
-              top: `${y}px`,
-              transform: `translate(-50%, -50%) scale(${isHovered ? 1.2 : 1})`,
-            }}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-          >
-            <div
-              className="relative rounded-xl p-3 transition-all duration-300"
-              style={{
-                background: isHovered ? "#1c1f26" : "rgba(28, 31, 38, 0.6)",
-                border: `1px solid ${isHovered ? "#38bdf8" : "#2d3342"}`,
-              }}
-            >
-              <Icon
-                size={24}
-                style={{
-                  color: isHovered ? "#38bdf8" : "#9ca3af",
-                }}
-              />
-            </div>
-
-            {isHovered && (
-              <div
-                className="absolute whitespace-nowrap px-3 py-1.5 rounded-lg text-sm font-medium"
-                style={{
-                  top: "-35px",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                  background: "#1c1f26",
-                  border: "1px solid #38bdf8",
-                  color: "#ffffff",
-                }}
-              >
-                {skill.name}
-              </div>
-            )}
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-// Hero Section Component (Updated prop: onContactClick)
-const HeroSection = ({ onContactClick }) => {
-  return (
-    <section
-      id="home"
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        paddingTop: "80px",
-      }}
-    >
+  const content = (
+    <>
       <div
+        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 z-0"
         style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: "0 2rem",
-          width: "100%",
+          opacity,
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(249, 115, 22, 0.15), transparent 40%)`,
         }}
-      >
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "4rem",
-            alignItems: "center",
-          }}
-        >
-          {/* Left side - Avatar and Introduction */}
-          <div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginBottom: "2rem",
-              }}
-            >
-              <div style={{ position: "relative" }}>
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: "-10px",
-                    background: "linear-gradient(135deg, #38bdf8, #818cf8)",
-                    borderRadius: "50%",
-                    opacity: "0.2",
-                    filter: "blur(20px)",
-                  }}
-                ></div>
-                <img
-                  src={avatarImage}
-                  alt="Avatar"
-                  style={{
-                    width: "280px",
-                    height: "280px",
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                    objectPosition: "center top",
-                    border: "4px solid #38bdf8",
-                    position: "relative",
-                    zIndex: 1,
-                  }}
-                />
-              </div>
-            </div>
-            <div
-              style={{
-                fontSize: "1.125rem",
-                color: "#38bdf8",
-                marginBottom: "1rem",
-                fontWeight: "500",
-                textAlign: "center",
-              }}
-            >
-              Hello, I'm Pham Viet Duc
-            </div>
-            <h1
-              style={{
-                fontSize: "2.75rem",
-                fontWeight: "700",
-                marginBottom: "1rem",
-                lineHeight: "1.1",
-                textAlign: "center",
-              }}
-            >
-              Backend Developer
-            </h1>
-            <p
-              style={{
-                fontSize: "1rem",
-                color: "#9ca3af",
-                marginBottom: "2rem",
-                lineHeight: "1.6",
-                textAlign: "center",
-              }}
-            >
-              Backend Developer with hands-on experience in Java (Spring Boot) and database management. 
-              Seeking a Fresher/Intern position to contribute to robust and scalable systems.
-            </p>
-            <div
-              style={{ display: "flex", gap: "1rem", justifyContent: "center" }}
-            >
-              <a
-                href="#contact"
-                onClick={onContactClick} // Gắn hàm xử lý click vào đây
-                style={{
-                  background: "#38bdf8",
-                  color: "#000",
-                  padding: "0.8rem 1.5rem",
-                  borderRadius: "8px",
-                  fontWeight: "600",
-                  textDecoration: "none",
-                  transition: "transform 0.3s",
-                  display: "inline-block",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={(e) =>
-                  (e.target.style.transform = "translateY(-2px)")
-                }
-                onMouseLeave={(e) =>
-                  (e.target.style.transform = "translateY(0)")
-                }
-              >
-                Contact Me
-              </a>
-              <a
-                href="/pdf/PhamVietDuc_WebDeveloper_Intern_CV.pdf"
-                download="Pham_Viet_Duc_Web_Dev_Intern_CV.pdf"
-                style={{
-                  background: "transparent",
-                  color: "#38bdf8",
-                  padding: "0.8rem 1.5rem",
-                  borderRadius: "8px",
-                  fontWeight: "600",
-                  textDecoration: "none",
-                  border: "2px solid #38bdf8",
-                  transition: "all 0.3s",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "rgba(56, 189, 248, 0.1)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "transparent";
-                }}
-              >
-                <Download size={20} />
-                Download CV
-              </a>
-            </div>
-          </div>
-
-          {/* Right side - Tech Stack Circle */}
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <TechStackCircle />
-          </div>
-        </div>
+      />
+      <div className="relative z-10 flex flex-col h-full">
+        {children}
       </div>
-    </section>
+    </>
   );
-};
 
-// 1. Education Content
-const EducationContent = () => {
-  return (
-    <div style={{ animation: "fadeIn 0.5s ease-in-out" }}>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "150px 1px 1fr",
-          gap: "2rem",
-          marginBottom: "2rem",
-        }}
+  const cardClasses = `group block relative overflow-hidden rounded-3xl glass-card transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/5 ${className} ${isPrimary ? 'md:col-span-2 md:p-10' : 'p-8'}`;
+
+  if (href) {
+    return (
+      <motion.a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        ref={divRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setOpacity(1)}
+        onMouseLeave={() => setOpacity(0)}
+        whileHover={{ y: -5 }}
+        className={cardClasses}
       >
-        <div style={{ color: "#9ca3af", fontWeight: "500" }}>
-          2023 - Present
-        </div>
-        <div style={{ width: "1px", background: "#2d3342" }}></div>
-        <div>
-          <h3
-            style={{
-              fontSize: "1.5rem",
-              fontWeight: "700",
-              color: "#ffffff",
-              marginBottom: "0.5rem",
-            }}
-          >
-            Bachelor of Information Technology
-          </h3>
-          <div
-            style={{
-              color: "#38bdf8",
-              marginBottom: "0.5rem",
-              fontWeight: "500",
-            }}
-          >
-            University of Information Technology (UIT) - VNU.HCM
-          </div>
-          <p style={{ color: "#9ca3af" }}>GPA: 8.35/10 • Ho Chi Minh City</p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// 2. Achievement Content
-const AchievementContent = () => {
-  const achievements = [
-    {
-      title: "GPA: 8.35/10",
-      description: "University of Information Technology (UIT)",
-      subtext: "Academic Excellence",
-      icon: GraduationCap,
-    },
-    {
-      title: "IELTS 6.0",
-      description: "Proficient in reading technical documentation",
-      subtext: "Language Proficiency",
-      icon: Globe,
-    },
-    {
-      title: "Full-Stack Web Development",
-      description: "Completed comprehensive Bootcamp on Udemy",
-      subtext: "Certification",
-      icon: Award,
-    },
-  ];
+        {content}
+      </motion.a>
+    );
+  }
 
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "1.5rem",
-        animation: "fadeIn 0.5s ease-in-out",
-        maxWidth: "800px",
-      }}
+      ref={divRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setOpacity(1)}
+      onMouseLeave={() => setOpacity(0)}
+      className={cardClasses}
     >
-      {achievements.map((item, index) => (
-        <div
-          key={index}
-          style={{
-            display: "flex",
-            alignItems: "flex-start",
-            gap: "1.5rem",
-            paddingBottom: "1.5rem",
-            borderBottom:
-              index !== achievements.length - 1 ? "1px solid #2d3342" : "none",
-          }}
-        >
-          <div
-            style={{
-              background: "#1c1f26",
-              padding: "10px",
-              borderRadius: "8px",
-              border: "1px solid #2d3342",
-              color: "#38bdf8",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <item.icon size={20} />
-          </div>
-
-          <div>
-            <h4
-              style={{
-                fontSize: "1.125rem",
-                fontWeight: "600",
-                color: "#ffffff",
-                marginBottom: "0.25rem",
-              }}
-            >
-              {item.title}
-            </h4>
-            <p
-              style={{
-                color: "#9ca3af",
-                fontSize: "0.95rem",
-                marginBottom: "0.25rem",
-              }}
-            >
-              {item.description}
-            </p>
-            <span
-              style={{
-                fontSize: "0.8rem",
-                color: "#38bdf8",
-                fontWeight: "500",
-                opacity: 0.8,
-              }}
-            >
-              {item.subtext}
-            </span>
-          </div>
-        </div>
-      ))}
+      {content}
     </div>
   );
 };
 
-// 3. Projects Content
-const ProjectsContent = () => {
-  const projects = [
-    {
-      title: "Pitch Management System",
-      desc: "A comprehensive backend system for sports field booking. Implemented stateless JWT auth, real-time WebSocket notifications, and asynchronous payment processing via Stripe Webhooks.",
-      tech: [
-        "Java",
-        "Spring Boot",
-        "PostgreSQL",
-        "Redis",
-        "Stripe API",
-        "Docker",
-      ],
-      link: "https://github.com/ducpham211/pitch-management-system",
-    },
-    {
-      title: "E-Commerce Platform",
-      desc: "A full-stack e-commerce application with cart management, payment integration, and admin dashboard.",
-      tech: [
-        "React",
-        "Node.js",
-        "Supabase",
-        "Momo Pay",
-        "Socket.io",
-        "Express.js",
-      ],
-      link: "https://sport-gear-e-commerce-platform-d34b.vercel.app/",
-    },
-    {
-      title: "Task Management App",
-      desc: "Real-time task management application with team collaboration features and progress tracking.",
-      tech: ["Node.js", "Express.js", "Supabase", "HTML/CSS", "EJS"],
-      link: "https://to-do-app-dzlm.onrender.com/",
-    },
+const Section = ({ children, id, className = "" }) => (
+  <motion.section 
+    id={id}
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-100px" }}
+    transition={{ duration: 0.6, ease: "easeOut" }}
+    className={`py-20 md:py-32 px-6 max-w-6xl mx-auto ${className}`}
+  >
+    {children}
+  </motion.section>
+);
+
+const Navbar = ({ isDark, toggleDark }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: 'About', href: '#about' },
+    { name: 'Experience', href: '#experience' },
+    { name: 'Projects', href: '#projects' },
   ];
 
   return (
-    <div style={{ animation: "fadeIn 0.5s ease-in-out" }}>
-      <h3
-        style={{
-          fontSize: "1.5rem",
-          fontWeight: "700",
-          color: "#ffffff",
-          marginBottom: "1.5rem",
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-        }}
-      >
-        Featured Projects
-      </h3>
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'py-4 bg-light-bg/80 dark:bg-dark-bg/80 backdrop-blur-md border-b border-light-border dark:border-dark-border shadow-sm' 
+          : 'py-6 bg-transparent'
+      }`}
+    >
+      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+        <a href="#" className="text-xl font-bold tracking-tight text-neutral-900 dark:text-white flex items-center gap-2">
+          <Terminal className="text-brand-500" size={24} />
+          <span>ducpham<span className="text-brand-500">.dev</span></span>
+        </a>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "1.5rem",
-        }}
-      >
-        {projects.map((project, index) => (
-          <a
-            key={index}
-            href={project.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              background: "#1c1f26",
-              border: "1px solid #2d3342",
-              borderRadius: "12px",
-              padding: "1.5rem",
-              textDecoration: "none",
-              transition: "all 0.3s",
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
-              position: "relative",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = "#38bdf8";
-              e.currentTarget.style.transform = "translateY(-4px)";
-              const cta = e.currentTarget.querySelector(".cta-text");
-              if (cta) cta.style.color = "#38bdf8";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = "#2d3342";
-              e.currentTarget.style.transform = "translateY(0)";
-              const cta = e.currentTarget.querySelector(".cta-text");
-              if (cta) cta.style.color = "#9ca3af";
-            }}
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <a 
+              key={link.name} 
+              href={link.href}
+              className="text-sm font-medium text-neutral-600 hover:text-brand-500 dark:text-neutral-400 dark:hover:text-brand-400 transition-colors"
+            >
+              {link.name}
+            </a>
+          ))}
+          <a 
+            href="#contact"
+            className="px-4 py-2 text-sm font-medium bg-neutral-900 text-white dark:bg-white dark:text-neutral-900 rounded-lg hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors"
           >
-            <h3
-              style={{
-                fontSize: "1.25rem",
-                fontWeight: "700",
-                color: "#ffffff",
-                margin: 0,
-              }}
-            >
-              {project.title}
-            </h3>
+            Let's Talk
+          </a>
+          <button 
+            onClick={toggleDark}
+            className="p-2 text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white transition-colors rounded-full hover:bg-neutral-100 dark:hover:bg-neutral-800"
+            aria-label="Toggle Dark Mode"
+          >
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+        </nav>
 
-            <p
-              style={{
-                color: "#9ca3af",
-                fontSize: "0.95rem",
-                lineHeight: "1.6",
-                margin: 0,
-              }}
-            >
-              {project.desc}
-            </p>
+        {/* Mobile Nav Toggle */}
+        <div className="flex md:hidden items-center gap-4">
+          <button onClick={toggleDark} className="p-2 text-neutral-600 dark:text-neutral-400">
+            {isDark ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+          <button 
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="p-2 text-neutral-600 dark:text-neutral-400"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </div>
 
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 bg-light-bg dark:bg-dark-bg border-b border-light-border dark:border-dark-border p-6 flex flex-col gap-4 shadow-lg">
+          {navLinks.map((link) => (
+            <a 
+              key={link.name} 
+              href={link.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-lg font-medium text-neutral-800 dark:text-neutral-200"
+            >
+              {link.name}
+            </a>
+          ))}
+          <a 
+            href="#contact"
+            onClick={() => setMobileMenuOpen(false)}
+            className="text-lg font-medium text-brand-500"
+          >
+            Let's Talk
+          </a>
+        </div>
+      )}
+    </header>
+  );
+};
+
+// --- APP COMPONENT ---
+
+export default function App() {
+  const [isDark, setIsDark] = useState(true);
+
+  // Initialize theme
+  useEffect(() => {
+    // Check local storage or system preference
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+      setIsDark(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setIsDark(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleDark = () => {
+    const nextDark = !isDark;
+    setIsDark(nextDark);
+    if (nextDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  return (
+    <div className="min-h-screen relative overflow-hidden font-sans">
+      {/* Background Effects matching Firecrawl's sleek look */}
+      <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center">
+        <div className="absolute inset-0 bg-grid-pattern opacity-70 dark:opacity-60" />
+        <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-brand-500/20 dark:bg-brand-500/10 blur-[120px] rounded-full animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[40%] h-[40%] bg-blue-500/10 dark:bg-blue-500/5 blur-[100px] rounded-full animate-pulse" style={{ animationDuration: '10s', animationDelay: '2s' }} />
+      </div>
+
+      <Navbar isDark={isDark} toggleDark={toggleDark} />
+
+      <main className="relative z-10 pt-20">
+        
+        {/* HERO SECTION */}
+        <section id="home" className="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
+            transition={{ 
+              duration: 0.7, 
+              y: { repeat: Infinity, duration: 5, ease: "easeInOut" }
+            }}
+            className="mb-8 relative"
+          >
+            <div className="absolute inset-0 bg-brand-500 rounded-full blur-[20px] opacity-30 animate-pulse" style={{ animationDuration: '3s' }} />
+            <img 
+              src={avatarImage} 
+              alt="Pham Viet Duc" 
+              className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover object-top border-2 border-brand-500/50 relative z-10 shadow-xl"
+            />
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm font-medium mb-6 text-neutral-600 dark:text-neutral-300 backdrop-blur-md"
+          >
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            Available for Intern/Fresher roles
+          </motion.div>
+
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-5xl md:text-7xl font-bold tracking-tight mb-6 text-neutral-900 dark:text-white leading-[1.1]"
+          >
+            Building robust <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-brand-500 to-orange-400 bg-[length:200%_auto] animate-gradient">backend systems</span><br className="hidden md:block"/> one line at a time.
+          </motion.h1>
+
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mb-10 leading-relaxed"
+          >
+            I'm Pham Viet Duc, a passionate Backend Developer specializing in <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-brand-500 to-orange-400 bg-[length:200%_auto] animate-gradient">Java, Spring Boot, Node js</span> and scalable database architectures. Let's build something exceptional.
+          </motion.p>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="flex flex-col sm:flex-row gap-4 items-center"
+          >
+            <a 
+              href="#projects"
+              className="w-full sm:w-auto px-8 py-3.5 bg-brand-500 text-white rounded-lg font-medium hover:bg-brand-600 transition-all active:scale-95 shadow-lg shadow-brand-500/25"
+            >
+              View My Work
+            </a>
+            <a 
+              href="/pdf/PhamVietDuc_WebDeveloper_Intern_CV.pdf"
+              download="Pham_Viet_Duc_CV.pdf"
+              className="w-full sm:w-auto px-8 py-3.5 bg-transparent text-neutral-900 dark:text-white border border-neutral-200 dark:border-neutral-700 rounded-lg font-medium hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-all flex items-center justify-center gap-2 group active:scale-95"
+            >
+              <Download size={18} className="group-hover:-translate-y-1 transition-transform" />
+              Download CV
+            </a>
+          </motion.div>
+        </section>
+
+        {/* ABOUT & EXPERIENCE */}
+        <Section id="about" className="border-t border-light-border dark:border-dark-border">
+          <div className="grid md:grid-cols-2 gap-16">
             <div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-                {project.tech.map((t, i) => (
-                  <span
-                    key={i}
-                    style={{
-                      background: "rgba(56, 189, 248, 0.1)",
-                      color: "#38bdf8",
-                      fontSize: "0.8rem",
-                      padding: "0.25rem 0.75rem",
-                      borderRadius: "20px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    {t}
-                  </span>
-                ))}
+              <h2 className="text-3xl font-bold mb-6 text-neutral-900 dark:text-white">About Me</h2>
+              <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed mb-6 text-lg">
+                I am an Information Technology student at UIT - VNU.HCM with a profound interest in 
+                server-side architecture and data management. My journey involves continuous learning, 
+                exploring modern frameworks, and writing clean, maintainable code.
+              </p>
+              <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-lg">
+                I thrive in solving complex problems, optimizing database queries, and architecting systems 
+                that can scale seamlessly under load.
+              </p>
+
+              <div className="mt-10 flex gap-4">
+                <a href="https://github.com/ducpham211" target="_blank" rel="noopener noreferrer" className="p-3 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-xl hover:text-brand-500 dark:hover:text-brand-400 transition-colors">
+                  <Github size={24} />
+                </a>
+                <a href="https://www.linkedin.com/in/viet-duc-pham-898459337/" target="_blank" rel="noopener noreferrer" className="p-3 bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 rounded-xl hover:text-blue-500 dark:hover:text-blue-400 transition-colors">
+                  <Linkedin size={24} />
+                </a>
               </div>
             </div>
 
-            <div
-              className="cta-text"
-              style={{
-                marginTop: "auto",
-                paddingTop: "1rem",
-                borderTop: "1px solid #2d3342",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                fontSize: "0.875rem",
-                fontWeight: "500",
-                color: "#9ca3af",
-                transition: "color 0.3s",
-              }}
-            >
-              <span>{project.link.includes('github') ? 'View Source Code' : 'Click to experience the website'}</span>
-              <ExternalLink size={14} />
+            <div id="experience">
+              <h2 className="text-3xl font-bold mb-8 text-neutral-900 dark:text-white">Experience & Education</h2>
+              
+              <div className="relative pl-6 border-l border-neutral-200 dark:border-neutral-800 flex flex-col gap-10">
+                {/* Exp 1 */}
+                <div className="relative">
+                  <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-brand-500 border-4 border-light-bg dark:border-dark-bg" />
+                  <span className="text-sm font-semibold text-brand-500 tracking-wider uppercase mb-1 block">Jan 2026 - May 2026</span>
+                  <h3 className="text-xl font-bold text-neutral-900 dark:text-white">Backend Developer Intern</h3>
+                  <h4 className="text-lg font-semibold text-brand-600 dark:text-brand-400 mb-3">HD Bank</h4>
+                  <ul className="list-disc pl-5 text-neutral-600 dark:text-neutral-400 leading-relaxed space-y-2">
+                    <li>Mastered the backend development lifecycle from Core Java to Spring Boot.</li>
+                    <li>Focused on database architecture, secure API design, and complex business logic implementation resulting in an independent capstone project.</li>
+                  </ul>
+                </div>
+
+                {/* Edu 1 */}
+                <div className="relative">
+                  <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-neutral-300 dark:bg-neutral-600 border-4 border-light-bg dark:border-dark-bg" />
+                  <span className="text-sm font-semibold text-neutral-500 dark:text-neutral-400 tracking-wider uppercase mb-1 block">2023 - Present</span>
+                  <h3 className="text-xl font-bold text-neutral-900 dark:text-white">Bachelor of Information Technology</h3>
+                  <h4 className="text-lg font-semibold text-brand-600 dark:text-brand-400 mb-3">University of Information Technology (UIT)</h4>
+                   <ul className="list-disc pl-5 text-neutral-600 dark:text-neutral-400 leading-relaxed mt-3">
+                    <li>GPA: 8.4/10</li>
+                    <li>Academic focus on Software Engineering, Data Structures, Algorithms, and System Architecture.</li>
+                  </ul>
+                </div>
+
+                {/* Qualifications */}
+                <div className="relative">
+                  <div className="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-neutral-300 dark:bg-neutral-600 border-4 border-light-bg dark:border-dark-bg" />
+                  <h3 className="text-xl font-bold text-neutral-900 dark:text-white">Qualifications</h3>
+                  <ul className="list-disc pl-5 text-neutral-600 dark:text-neutral-400 leading-relaxed mt-3">
+                    <li>IELTS: 6.0</li>
+                    <li>The Complete Full-Stack Web Development Bootcamp on Udemy</li>
+                  </ul>
+                </div>
+              </div>
             </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-};
+          </div>
+        </Section>
 
-// 4. Contact Content
-const ContactContent = () => {
-  const contactInfo = [
-    {
-      icon: Mail,
-      text: "ducp07052@gmail.com",
-      link: "mailto:ducp07052@gmail.com",
-    },
-    {
-      icon: Phone,
-      text: "0398399540",
-      link: "tel:0398399540",
-    },
-    {
-      icon: Github,
-      text: "github.com/ducpham211",
-      link: "https://github.com/ducpham211",
-    },
-  ];
+        {/* TECH STACK */}
+        <Section className="bg-neutral-50 dark:bg-[#0f0f0f] border-y border-light-border dark:border-dark-border max-w-none px-6 relative overflow-hidden">
+          {/* Subtle background glow for section */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-brand-500/5 blur-[120px] rounded-full pointer-events-none" />
 
-  return (
-    <div id="contact" style={{ animation: "fadeIn 0.5s ease-in-out" }}>
-      <p style={{ color: "#9ca3af", marginBottom: "2rem", fontSize: "1.1rem" }}>
-        Interested in working together? Let's connect.
-      </p>
+          <div className="max-w-6xl mx-auto relative z-10">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-4 text-neutral-900 dark:text-white tracking-tight">Technical Arsenal</h2>
+              <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">Modern tools and technologies I use to architect robust, scalable applications.</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {SKILLS.map((skillGroup, idx) => (
+                <SpotlightCard key={idx} className="!p-6 h-full flex flex-col group">
+                  <div className="w-12 h-12 rounded-xl bg-neutral-100 dark:bg-neutral-800/80 flex items-center justify-center mb-6 border border-neutral-200 dark:border-neutral-700 group-hover:scale-110 transition-transform duration-500 shadow-sm">
+                    {idx === 0 && <Server className="text-brand-500" size={24} />}
+                    {idx === 1 && <Database className="text-blue-500" size={24} />}
+                    {idx === 2 && <Layout className="text-pink-500" size={24} />}
+                    {idx === 3 && <Code2 className="text-purple-500" size={24} />}
+                  </div>
+                  
+                  <h3 className="text-xl font-bold mb-6 text-neutral-900 dark:text-white group-hover:text-brand-500 transition-colors">
+                    {skillGroup.category}
+                  </h3>
+                  
+                  <div className="flex flex-col gap-2.5 mt-auto">
+                    {skillGroup.items.map((item, i) => (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.1 * i, duration: 0.3 }}
+                        key={i} 
+                        className="w-full px-3 py-2 text-sm font-medium rounded-lg bg-white dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-800 hover:border-brand-500/50 hover:text-brand-500 dark:hover:text-brand-400 hover:bg-brand-500/5 transition-all shadow-sm flex items-center justify-between group/item"
+                      >
+                        <span>{item}</span>
+                        <div className="w-1.5 h-1.5 rounded-full bg-neutral-300 dark:bg-neutral-700 group-hover/item:bg-brand-500 transition-colors" />
+                      </motion.div>
+                    ))}
+                  </div>
+                </SpotlightCard>
+              ))}
+            </div>
+          </div>
+        </Section>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        {contactInfo.map((contact, index) => (
-          <a
-            key={index}
-            href={contact.link}
-            target={contact.icon === Github ? "_blank" : "_self"}
-            rel="noopener noreferrer"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "1rem",
-              color: "#ffffff",
-              textDecoration: "none",
-              width: "fit-content",
-              transition: "color 0.3s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = "#38bdf8")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#ffffff")}
-          >
-            <contact.icon size={20} color="#38bdf8" />
-            <span style={{ fontSize: "1rem" }}>{contact.text}</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-// Tabbed Section (Updated: Accepts props instead of internal state)
-const TabbedInfoSection = ({ activeTab, setActiveTab }) => {
-  const tabs = [
-    { id: "education", label: "Education" },
-    { id: "achievements", label: "Achievements" },
-    { id: "projects", label: "Projects" },
-    { id: "contact", label: "Contact" },
-    { id: "about", label: "About Me" },
-  ];
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case "education":
-        return <EducationContent />;
-      case "achievements":
-        return <AchievementContent />;
-      case "projects":
-        return <ProjectsContent />;
-      case "contact":
-        return <ContactContent />;
-      case "about":
-        return <AboutContent />;
-      default:
-        return null;
-    }
-  };
-
-  return (
-    // Thêm ID info-section để scroll tới
-    <section
-      id="info-section"
-      style={{ padding: "4rem 0", minHeight: "600px" }}
-    >
-      <div style={{ maxWidth: "1024px", margin: "0 auto", padding: "0 2rem" }}>
-        {/* --- THANH NAVIGATION (TABS) --- */}
-        <div
-          style={{
-            display: "flex",
-            gap: "2rem",
-            borderBottom: "1px solid #2d3342",
-            marginBottom: "3rem",
-            overflowX: "auto",
-            paddingBottom: "1px",
-          }}
-        >
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              style={{
-                background: "none",
-                border: "none",
-                padding: "0 0 1rem 0",
-                fontSize: "1rem",
-                fontWeight: activeTab === tab.id ? "600" : "500",
-                color: activeTab === tab.id ? "#38bdf8" : "#9ca3af",
-                cursor: "pointer",
-                borderBottom:
-                  activeTab === tab.id
-                    ? "2px solid #38bdf8"
-                    : "2px solid transparent",
-                transition: "all 0.3s",
-                whiteSpace: "nowrap",
-              }}
+        {/* PROJECTS */}
+        <Section id="projects">
+          <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <h2 className="text-4xl font-bold mb-4 text-neutral-900 dark:text-white tracking-tight">Featured Projects</h2>
+              <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl">
+                A selection of my recent backend and full-stack work. 
+                Focusing on clean code, scalability, and robust architecture.
+              </p>
+            </div>
+            <a 
+              href="https://github.com/ducpham211" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-brand-500 font-medium hover:text-brand-600 flex items-center gap-1 group"
             >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+              View all on GitHub <ExternalLink size={16} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </a>
+          </div>
 
-        {/* --- KHU VỰC HIỂN THỊ NỘI DUNG --- */}
-        <div style={{ minHeight: "300px" }}>{renderContent()}</div>
-      </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {PROJECTS.map((project, idx) => (
+              <SpotlightCard 
+                key={idx} 
+                href={project.link} 
+                isPrimary={project.isPrimary}
+              >
+                <div className="flex justify-between items-start mb-6">
+                  <h3 className={`font-bold text-neutral-900 dark:text-white group-hover:text-brand-500 transition-colors ${project.isPrimary ? 'text-2xl md:text-3xl' : 'text-xl'}`}>
+                    {project.title}
+                  </h3>
+                  <div className="w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-500 group-hover:bg-brand-500 group-hover:text-white transition-all shrink-0">
+                    <ExternalLink size={18} />
+                  </div>
+                </div>
+                
+                <p className={`text-neutral-600 dark:text-neutral-400 mb-8 leading-relaxed ${project.isPrimary ? 'text-lg max-w-3xl' : ''}`}>
+                  {project.description}
+                </p>
+                
+                <div className="mt-auto flex flex-wrap gap-2 pt-6 border-t border-light-border dark:border-dark-border">
+                  {project.tech.map((t, i) => (
+                    <span 
+                      key={i} 
+                      className="px-3 py-1 text-xs font-semibold rounded-md bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 group-hover:border-brand-500/30 transition-colors"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </SpotlightCard>
+            ))}
+          </div>
+        </Section>
 
-      <style>
-        {`
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}
-      </style>
-    </section>
-  );
-};
+        {/* CTA / CONTACT */}
+        <section id="contact" className="py-24 px-6">
+          <div className="max-w-4xl mx-auto rounded-3xl bg-neutral-900 dark:bg-[#111] border border-neutral-800 p-10 md:p-16 text-center relative overflow-hidden">
+            {/* Decorative background */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-md h-full bg-gradient-to-b from-brand-500/20 to-transparent blur-3xl rounded-full opacity-50 pointer-events-none" />
+            
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 relative z-10">Let's build together.</h2>
+            <p className="text-lg text-neutral-400 mb-10 max-w-xl mx-auto relative z-10">
+              I'm actively looking for a Backend Fresher or Intern position. 
+              Whether you have a question or just want to say hi, my inbox is always open!
+            </p>
+            
+            <a 
+              href="mailto:ducp07052@gmail.com"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-500 text-white rounded-xl font-bold text-lg hover:bg-brand-600 transition-all active:scale-95 shadow-lg shadow-brand-500/25 relative z-10"
+            >
+              <Mail size={20} />
+              Say Hello
+            </a>
+          </div>
+        </section>
 
-// Footer Component
-const Footer = () => {
-  return (
-    <footer
-      style={{
-        borderTop: "1px solid #2d3342",
-        padding: "2rem 0",
-        textAlign: "center",
-        color: "#9ca3af",
-      }}
-    >
-      <div style={{ maxWidth: "1024px", margin: "0 auto", padding: "0 2rem" }}>
-        <p>@Copyright by Pham Viet Duc</p>
-      </div>
-    </footer>
-  );
-};
+      </main>
 
-// Main Component (Updated: Holds State & Handle Click)
-const Portfolio = () => {
-  // 1. State nằm ở component cha
-  const [activeTab, setActiveTab] = useState("projects");
-
-  // 2. Hàm xử lý khi bấm nút Contact Me
-  const handleContactClick = (e) => {
-    e.preventDefault(); // Chặn hành vi nhảy link mặc định
-    setActiveTab("contact"); // Bật tab Contact
-
-    // Tìm section và cuộn xuống
-    const section = document.getElementById("info-section");
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  return (
-    <div
-      style={{
-        background: "#0f1115",
-        color: "#ffffff",
-        fontFamily: '"Plus Jakarta Sans", sans-serif',
-        minHeight: "100vh",
-      }}
-    >
-      {/* Truyền hàm xuống HeroSection */}
-      <HeroSection onContactClick={handleContactClick} />
-
-      {/* Truyền state và hàm set state xuống TabbedInfoSection */}
-      <TabbedInfoSection activeTab={activeTab} setActiveTab={setActiveTab} />
-
-      <Footer />
+      {/* FOOTER */}
+      <footer className="py-8 border-t border-light-border dark:border-dark-border text-center">
+        <p className="text-neutral-500 dark:text-neutral-500 text-sm">
+          &copy; {new Date().getFullYear()} Pham Viet Duc.
+        </p>
+      </footer>
     </div>
   );
-};
-
-export default Portfolio;
+}
