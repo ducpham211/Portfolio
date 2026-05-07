@@ -378,7 +378,7 @@ export default function App() {
                   <ul className="list-disc pl-5 text-neutral-600 dark:text-neutral-400 leading-relaxed space-y-2">
                     <li>Completed an intensive backend engineering program covering Spring Boot, Spring Data JPA, Spring Security, RESTful API design, and JWT-based authentication.</li>
                     <li>Applied Clean Code principles and SOLID design in a structured development workflow, including requirements analysis, database design, and API documentation with Swagger.</li>
-                    <li>Independently developed a full-scale capstone project, implementing layered architecture (Controller–Service–Repository), global exception handling, role-based access control, and pagination.</li>
+                    <li>Independently developed a full-scale capstone transaction system, implementing layered architecture (Controller–Service–Repository), global exception handling, role-based access control, and pagination.</li>
                   </ul>
                 </div>
 
