@@ -376,8 +376,9 @@ export default function App() {
                   <h3 className="text-xl font-bold text-neutral-900 dark:text-white">Backend Developer Intern</h3>
                   <h4 className="text-lg font-semibold text-brand-600 dark:text-brand-400 mb-3">HD Bank</h4>
                   <ul className="list-disc pl-5 text-neutral-600 dark:text-neutral-400 leading-relaxed space-y-2">
-                    <li>Mastered the backend development lifecycle from Core Java to Spring Boot.</li>
-                    <li>Focused on database architecture, secure API design, and complex business logic implementation resulting in an independent capstone project.</li>
+                    <li>Completed an intensive backend engineering program covering Spring Boot, Spring Data JPA, Spring Security, RESTful API design, and JWT-based authentication.</li>
+                    <li>Applied Clean Code principles and SOLID design in a structured development workflow, including requirements analysis, database design, and API documentation with Swagger.</li>
+                    <li>Independently developed a full-scale capstone project, implementing layered architecture (Controller–Service–Repository), global exception handling, role-based access control, and pagination.</li>
                   </ul>
                 </div>
 
@@ -546,7 +547,7 @@ export default function App() {
             
             <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 relative z-10">Let's build together.</h2>
             <p className="text-lg text-neutral-400 mb-10 max-w-xl mx-auto relative z-10">
-              I'm actively looking for a Backend Fresher or Intern position. 
+              I'm actively looking for a Backend Fresher or Junior position. 
               Whether you have a question or just want to say hi, my inbox is always open!
             </p>
             
