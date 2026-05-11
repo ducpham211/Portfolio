@@ -285,7 +285,7 @@ export default function App() {
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-sm font-medium mb-6 text-neutral-600 dark:text-neutral-300 backdrop-blur-md"
           >
             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            Available for Intern/Fresher roles
+            Available for Backend Developer role
           </motion.div>
 
           <motion.h1 
